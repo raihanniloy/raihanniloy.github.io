@@ -1,0 +1,8 @@
+@font-face {
+        font-family: 'Nikosh';
+        src: url('../fonts/Nikosh.woff2') format('woff2'),
+             url('../fonts/Nikosh.woff') format('woff'),
+             url('../fonts/Nikosh.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+}
