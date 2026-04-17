@@ -18,6 +18,9 @@ const { title, description = 'Full-Stack Software Engineer — Java, Python, Nex
     <meta name="description" content={description} />
     <title>{title}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet" />
   </head>
   <body>
     <Nav />
@@ -26,7 +29,27 @@ const { title, description = 'Full-Stack Software Engineer — Java, Python, Nex
     </main>
     <footer>
       <div class="container">
-        <p>&copy; {new Date().getFullYear()} Raihan Kader Niloy. All rights reserved.</p>
+        <div class="footer-inner">
+          <div class="footer-info">
+            <p class="footer-brand">Raihan Kader Niloy</p>
+            <p class="footer-desc">Full-Stack Software Engineer focused on building enterprise systems and data platforms.</p>
+          </div>
+          <div class="footer-links">
+            <p class="footer-heading">Links</p>
+            <a href="/">Home</a>
+            <a href="/projects">Projects</a>
+            <a href="/experience">Experience</a>
+          </div>
+          <div class="footer-links">
+            <p class="footer-heading">Connect</p>
+            <a href="mailto:raihanniloy.mbstu@gmail.com">Email</a>
+            <a href="https://github.com/raihanniloy" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://www.linkedin.com/in/raihan-niloy-15584b113/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; {new Date().getFullYear()} Raihan Kader Niloy. All rights reserved.</p>
+        </div>
       </div>
     </footer>
   </body>
@@ -34,10 +57,69 @@ const { title, description = 'Full-Stack Software Engineer — Java, Python, Nex
 
 <style>
   footer {
-    border-top: 1px solid var(--border);
-    padding: 1.5rem 0;
+    background: var(--fg);
+    color: #ccc;
+    padding: 3rem 0 1.5rem;
+  }
+
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .footer-brand {
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-desc {
+    font-size: 0.9rem;
+    max-width: 300px;
+    line-height: 1.5;
+  }
+
+  .footer-heading {
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .footer-links a {
+    color: #aaa;
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+
+  .footer-links a:hover {
+    color: #fff;
+  }
+
+  .footer-bottom {
+    padding-top: 1.5rem;
     text-align: center;
-    color: var(--muted);
-    font-size: 0.875rem;
+    font-size: 0.8rem;
+    color: #888;
+  }
+
+  @media (max-width: 640px) {
+    .footer-inner {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
   }
 </style>

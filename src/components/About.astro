@@ -1,32 +1,79 @@
 ---
 ---
 
-<section id="about" class="about">
+<section id="about">
   <div class="container">
-    <h2>About</h2>
-    <div class="about-content">
-      <p>
-        I'm a full-stack software engineer with 7+ years of professional experience building enterprise
-        systems, government platforms, and data pipelines. My stack spans Java (Spring Boot), Python
-        (Flask, Django, FastAPI), and JavaScript/TypeScript (NextJS).
-      </p>
-      <p>
-        I hold a B.Sc. in Computer Science &amp; Engineering from Mawlana Bhashani Science and
-        Technology University and have spent the bulk of my career at DS Innovators Ltd. delivering
-        high-impact products across ERP, biometric identity, national dashboards, and ML-driven
-        document classification.
-      </p>
+    <h2>About Me</h2>
+    <p class="section-subtitle">A passionate engineer building impactful software</p>
+    <div class="about-grid">
+      <div class="about-card">
+        <span class="about-icon">🏢</span>
+        <h3>Enterprise Systems</h3>
+        <p>7+ years building ERP integrations, government platforms, and data pipelines at DS Innovators Ltd.</p>
+      </div>
+      <div class="about-card">
+        <span class="about-icon">🎓</span>
+        <h3>CS Graduate</h3>
+        <p>B.Sc. in Computer Science & Engineering from Mawlana Bhashani Science and Technology University.</p>
+      </div>
+      <div class="about-card">
+        <span class="about-icon">🧠</span>
+        <h3>ML & Data</h3>
+        <p>Built document classification systems with PyTorch and national-scale ETL pipelines feeding dashboards.</p>
+      </div>
+      <div class="about-card">
+        <span class="about-icon">⚡</span>
+        <h3>Full-Stack</h3>
+        <p>From Spring Boot APIs to NextJS frontends — comfortable across the entire stack and deployment pipeline.</p>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .about-content {
-    max-width: 700px;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    color: var(--muted);
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .about-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+
+  .about-card:hover {
+    box-shadow: var(--shadow-hover);
+    border-color: var(--accent);
+  }
+
+  .about-icon {
+    font-size: 1.75rem;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .about-card h3 {
+    font-family: 'Inter', sans-serif;
     font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .about-card p {
+    color: var(--fg-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 540px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

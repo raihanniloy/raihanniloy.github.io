@@ -9,20 +9,16 @@ const { project } = Astro.props;
 ---
 
 <article class="card">
-  <div class="card-header">
-    <h3>{project.title}</h3>
+  <div class="card-top">
     <span class:list={['badge', project.type]}>{project.type}</span>
-  </div>
-  <p class="card-desc">{project.description}</p>
-  <div class="card-footer">
-    <div class="tags">
-      {project.tags.map(tag => <span class="tag">{tag}</span>)}
-    </div>
     {project.url && (
-      <a href={project.url} target="_blank" rel="noopener noreferrer" class="card-link">
-        GitHub &rarr;
-      </a>
+      <a href={project.url} target="_blank" rel="noopener noreferrer" class="card-arrow" aria-label="View project">→</a>
     )}
+  </div>
+  <h3>{project.title}</h3>
+  <p class="card-desc">{project.description}</p>
+  <div class="card-tags">
+    {project.tags.map(tag => <span class="tag">{tag}</span>)}
   </div>
 </article>
 
@@ -30,69 +26,79 @@ const { project } = Astro.props;
   .card {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.5rem;
+    border-radius: var(--radius);
+    padding: 1.75rem;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
 
   .card:hover {
     border-color: var(--accent);
+    box-shadow: var(--shadow-hover);
   }
 
-  .card-header {
+  .card-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem;
-  }
-
-  .card-header h3 {
-    font-size: 1.1rem;
-    color: var(--fg);
   }
 
   .badge {
     font-size: 0.7rem;
-    padding: 0.15rem 0.5rem;
+    padding: 0.2rem 0.65rem;
     border-radius: 99px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-weight: 600;
-    flex-shrink: 0;
   }
 
   .badge.work {
-    background: rgba(56, 189, 248, 0.15);
-    color: var(--accent);
-    border: 1px solid rgba(56, 189, 248, 0.3);
+    background: #fef3c7;
+    color: #92400e;
   }
 
   .badge.personal {
-    background: rgba(167, 139, 250, 0.15);
-    color: #a78bfa;
-    border: 1px solid rgba(167, 139, 250, 0.3);
+    background: #ede9fe;
+    color: #5b21b6;
+  }
+
+  .card-arrow {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    color: var(--fg);
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .card-arrow:hover {
+    background: var(--fg);
+    color: #fff;
+    text-decoration: none;
+  }
+
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
   }
 
   .card-desc {
-    color: var(--muted);
+    color: var(--fg-secondary);
     font-size: 0.9rem;
     flex: 1;
   }
 
-  .card-footer {
+  .card-tags {
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 0.5rem;
     flex-wrap: wrap;
-  }
-
-  .card-link {
-    font-size: 0.85rem;
-    white-space: nowrap;
-    flex-shrink: 0;
+    gap: 0.4rem;
+    margin-top: 0.25rem;
   }
 </style>

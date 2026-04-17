@@ -1,48 +1,102 @@
 ---
-const links = [
-  { label: 'Work Email',   href: 'mailto:raihan.kader@dsinnovators.com',         text: 'raihan.kader@dsinnovators.com' },
-  { label: 'Email',        href: 'mailto:raihanniloy.mbstu@gmail.com',            text: 'raihanniloy.mbstu@gmail.com' },
-  { label: 'GitHub',       href: 'https://github.com/raihanniloy',               text: 'github.com/raihanniloy' },
-  { label: 'LinkedIn',     href: 'https://www.linkedin.com/in/raihan-niloy-15584b113/', text: 'linkedin.com/in/raihan-niloy' },
-];
 ---
 
 <section id="contact">
   <div class="container">
-    <h2>Contact</h2>
-    <ul class="contact-list">
-      {links.map(link => (
-        <li>
-          <span class="contact-label">{link.label}</span>
-          <a href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer">
-            {link.text}
-          </a>
-        </li>
-      ))}
-    </ul>
+    <div class="contact-box">
+      <h2>Get In Touch</h2>
+      <p class="section-subtitle">Feel free to reach out for collaboration or just a friendly hello</p>
+      <div class="contact-links">
+        <a href="mailto:raihanniloy.mbstu@gmail.com" class="contact-item">
+          <span class="contact-icon">✉️</span>
+          <div>
+            <p class="contact-label">Email</p>
+            <p class="contact-value">raihanniloy.mbstu@gmail.com</p>
+          </div>
+        </a>
+        <a href="mailto:raihan.kader@dsinnovators.com" class="contact-item">
+          <span class="contact-icon">💼</span>
+          <div>
+            <p class="contact-label">Work Email</p>
+            <p class="contact-value">raihan.kader@dsinnovators.com</p>
+          </div>
+        </a>
+        <a href="https://github.com/raihanniloy" target="_blank" rel="noopener noreferrer" class="contact-item">
+          <span class="contact-icon">🐙</span>
+          <div>
+            <p class="contact-label">GitHub</p>
+            <p class="contact-value">github.com/raihanniloy</p>
+          </div>
+        </a>
+        <a href="https://www.linkedin.com/in/raihan-niloy-15584b113/" target="_blank" rel="noopener noreferrer" class="contact-item">
+          <span class="contact-icon">💬</span>
+          <div>
+            <p class="contact-label">LinkedIn</p>
+            <p class="contact-value">linkedin.com/in/raihan-niloy</p>
+          </div>
+        </a>
+      </div>
+    </div>
   </div>
 </section>
 
 <style>
-  .contact-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    max-width: 500px;
+  #contact {
+    background: var(--bg-accent);
   }
 
-  .contact-list li {
-    display: flex;
+  .contact-box {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .contact-links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
-    align-items: baseline;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    text-decoration: none;
+    color: var(--fg);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .contact-item:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow);
+    text-decoration: none;
+  }
+
+  .contact-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
   }
 
   .contact-label {
-    color: var(--muted);
-    font-size: 0.85rem;
-    min-width: 100px;
+    font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    color: var(--fg-secondary);
+    margin-bottom: 0.15rem;
+    font-weight: 600;
+  }
+
+  .contact-value {
+    font-size: 0.88rem;
+    font-weight: 500;
+  }
+
+  @media (max-width: 540px) {
+    .contact-links {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

@@ -1,47 +1,113 @@
 ---
-const skillGroups: Record<string, string[]> = {
-  Languages:  ['C++', 'Java', 'Python', 'JavaScript', 'TypeScript'],
-  Frameworks: ['Spring Boot', 'Flask', 'Django', 'FastAPI', 'NextJS', 'Struts'],
-  Databases:  ['Oracle', 'MySQL', 'PostgreSQL', 'MSSQL', 'Redis'],
-  'ML / Data': ['PyTorch', 'Scikit-learn', 'Gensim', 'NumPy', 'Pandas'],
-  Tools:       ['Docker', 'Linux', 'Apache Superset', 'RabbitMQ'],
+interface Skill {
+  name: string;
+  icon: string; // devicon class name
+}
+
+const skillGroups: Record<string, Skill[]> = {
+  Languages: [
+    { name: 'C++', icon: 'devicon-cplusplus-plain' },
+    { name: 'Java', icon: 'devicon-java-plain' },
+    { name: 'Python', icon: 'devicon-python-plain' },
+    { name: 'JavaScript', icon: 'devicon-javascript-plain' },
+    { name: 'TypeScript', icon: 'devicon-typescript-plain' },
+  ],
+  Frameworks: [
+    { name: 'Spring Boot', icon: 'devicon-spring-plain' },
+    { name: 'Flask', icon: 'devicon-flask-original' },
+    { name: 'Django', icon: 'devicon-django-plain' },
+    { name: 'FastAPI', icon: 'devicon-fastapi-plain' },
+    { name: 'NextJS', icon: 'devicon-nextjs-plain' },
+  ],
+  Databases: [
+    { name: 'Oracle', icon: 'devicon-oracle-original' },
+    { name: 'MySQL', icon: 'devicon-mysql-plain' },
+    { name: 'PostgreSQL', icon: 'devicon-postgresql-plain' },
+    { name: 'MSSQL', icon: 'devicon-microsoftsqlserver-plain' },
+    { name: 'Redis', icon: 'devicon-redis-plain' },
+  ],
+  'ML & Data': [
+    { name: 'PyTorch', icon: 'devicon-pytorch-original' },
+    { name: 'NumPy', icon: 'devicon-numpy-original' },
+    { name: 'Pandas', icon: 'devicon-pandas-original' },
+    { name: 'Scikit-learn', icon: 'devicon-scikitlearn-plain' },
+  ],
+  Tools: [
+    { name: 'Docker', icon: 'devicon-docker-plain' },
+    { name: 'Linux', icon: 'devicon-linux-plain' },
+    { name: 'Git', icon: 'devicon-git-plain' },
+    { name: 'RabbitMQ', icon: 'devicon-rabbitmq-original' },
+  ],
 };
 ---
 
 <section id="skills">
   <div class="container">
-    <h2>Skills</h2>
+    <h2>Tech Stack</h2>
+    <p class="section-subtitle">Technologies I work with daily</p>
     <div class="skill-groups">
       {Object.entries(skillGroups).map(([group, skills]) => (
         <div class="skill-group">
           <h3>{group}</h3>
-          <div class="tags">
-            {skills.map(s => <span class="tag">{s}</span>)}
+          <div class="skill-items">
+            {skills.map(s => (
+              <div class="skill-chip">
+                <i class={s.icon + ' colored'}></i>
+                <span>{s.name}</span>
+              </div>
+            ))}
           </div>
         </div>
       ))}
     </div>
   </div>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
 </section>
 
 <style>
   .skill-groups {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
   }
 
   .skill-group h3 {
+    font-family: 'Inter', sans-serif;
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--muted);
-    margin-bottom: 0.5rem;
+    color: var(--fg-secondary);
+    margin-bottom: 0.75rem;
+    font-weight: 600;
   }
 
-  .tags {
+  .skill-items {
     display: flex;
     flex-wrap: wrap;
-    gap: 0;
+    gap: 0.75rem;
+  }
+
+  .skill-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 0.5rem 1rem;
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .skill-chip:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow);
+  }
+
+  .skill-chip i {
+    font-size: 1.25rem;
   }
 </style>
