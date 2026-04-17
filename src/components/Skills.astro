@@ -1,0 +1,47 @@
+---
+const skillGroups: Record<string, string[]> = {
+  Languages:  ['C++', 'Java', 'Python', 'JavaScript', 'TypeScript'],
+  Frameworks: ['Spring Boot', 'Flask', 'Django', 'FastAPI', 'NextJS', 'Struts'],
+  Databases:  ['Oracle', 'MySQL', 'PostgreSQL', 'MSSQL', 'Redis'],
+  'ML / Data': ['PyTorch', 'Scikit-learn', 'Gensim', 'NumPy', 'Pandas'],
+  Tools:       ['Docker', 'Linux', 'Apache Superset', 'RabbitMQ'],
+};
+---
+
+<section id="skills">
+  <div class="container">
+    <h2>Skills</h2>
+    <div class="skill-groups">
+      {Object.entries(skillGroups).map(([group, skills]) => (
+        <div class="skill-group">
+          <h3>{group}</h3>
+          <div class="tags">
+            {skills.map(s => <span class="tag">{s}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .skill-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .skill-group h3 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+</style>

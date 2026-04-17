@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ExperienceItem from '../components/ExperienceItem.astro';
+import { experience } from '../data/experience';
+
+const workItems      = experience.filter(e => e.type === 'work');
+const educationItems = experience.filter(e => e.type === 'education');
+---
+
+<BaseLayout title="Experience — Raihan Kader Niloy">
+  <div class="container exp-page">
+    <section>
+      <h2>Work</h2>
+      <div class="timeline">
+        {workItems.map(item => <ExperienceItem item={item} />)}
+      </div>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <div class="timeline">
+        {educationItems.map(item => <ExperienceItem item={item} />)}
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .exp-page {
+    padding-top: 3rem;
+    padding-bottom: 4rem;
+  }
+
+  .timeline {
+    max-width: 700px;
+  }
+</style>

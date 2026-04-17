@@ -1,0 +1,48 @@
+---
+const links = [
+  { label: 'Work Email',   href: 'mailto:raihan.kader@dsinnovators.com',         text: 'raihan.kader@dsinnovators.com' },
+  { label: 'Email',        href: 'mailto:raihanniloy.mbstu@gmail.com',            text: 'raihanniloy.mbstu@gmail.com' },
+  { label: 'GitHub',       href: 'https://github.com/raihanniloy',               text: 'github.com/raihanniloy' },
+  { label: 'LinkedIn',     href: 'https://www.linkedin.com/in/raihan-niloy-15584b113/', text: 'linkedin.com/in/raihan-niloy' },
+];
+---
+
+<section id="contact">
+  <div class="container">
+    <h2>Contact</h2>
+    <ul class="contact-list">
+      {links.map(link => (
+        <li>
+          <span class="contact-label">{link.label}</span>
+          <a href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer">
+            {link.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .contact-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 500px;
+  }
+
+  .contact-list li {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+  }
+
+  .contact-label {
+    color: var(--muted);
+    font-size: 0.85rem;
+    min-width: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+</style>

@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects';
+
+const workProjects     = projects.filter(p => p.type === 'work');
+const personalProjects = projects.filter(p => p.type === 'personal');
+---
+
+<BaseLayout title="Projects — Raihan Kader Niloy">
+  <div class="container projects-page">
+    <section>
+      <h2>Work Projects</h2>
+      <div class="grid">
+        {workProjects.map(p => <ProjectCard project={p} />)}
+      </div>
+    </section>
+
+    <section>
+      <h2>Personal Projects</h2>
+      <div class="grid">
+        {personalProjects.map(p => <ProjectCard project={p} />)}
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .projects-page {
+    padding-top: 3rem;
+    padding-bottom: 4rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+</style>

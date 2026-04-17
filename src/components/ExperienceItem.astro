@@ -1,0 +1,82 @@
+---
+import type { ExperienceItem } from '../data/experience';
+
+interface Props {
+  item: ExperienceItem;
+}
+
+const { item } = Astro.props;
+---
+
+<div class="exp-item">
+  <div class="exp-dot"></div>
+  <div class="exp-content">
+    <div class="exp-header">
+      <div>
+        <h3>{item.role}</h3>
+        <p class="exp-org">{item.org}</p>
+      </div>
+      <span class="exp-period">{item.period}</span>
+    </div>
+    <p class="exp-desc">{item.description}</p>
+  </div>
+</div>
+
+<style>
+  .exp-item {
+    display: flex;
+    gap: 1.25rem;
+    position: relative;
+  }
+
+  .exp-dot {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 0.35rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .exp-content {
+    flex: 1;
+    padding-bottom: 2rem;
+    border-left: 2px solid var(--border);
+    padding-left: 1.25rem;
+    margin-left: -0.625rem;
+  }
+
+  .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+  }
+
+  .exp-header h3 {
+    font-size: 1.05rem;
+    color: var(--fg);
+  }
+
+  .exp-org {
+    color: var(--accent);
+    font-size: 0.9rem;
+    margin-top: 0.15rem;
+  }
+
+  .exp-period {
+    color: var(--muted);
+    font-size: 0.85rem;
+    white-space: nowrap;
+    margin-top: 0.2rem;
+  }
+
+  .exp-desc {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+</style>

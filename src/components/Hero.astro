@@ -1,0 +1,87 @@
+---
+---
+
+<section class="hero">
+  <div class="container hero-inner">
+    <p class="hero-greeting">Hi, I'm</p>
+    <h1>Raihan Kader Niloy</h1>
+    <p class="hero-subtitle">Full-Stack Software Engineer &middot; 7 years &middot; Java &middot; Python &middot; NextJS</p>
+    <div class="hero-ctas">
+      <a href="/projects" class="btn btn-primary">View Projects</a>
+      <a href="#contact" class="btn btn-outline">Contact</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: calc(100vh - 3.5rem);
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-inner {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .hero-greeting {
+    color: var(--accent);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    color: var(--fg);
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.7rem 1.75rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .btn-primary:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+
+  .btn-outline {
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    background: transparent;
+  }
+
+  .btn-outline:hover {
+    background: var(--accent);
+    color: var(--bg);
+    text-decoration: none;
+  }
+</style>
