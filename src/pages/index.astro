@@ -1,14 +1,720 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
-import About from '../components/About.astro';
-import Skills from '../components/Skills.astro';
-import Contact from '../components/Contact.astro';
+// src/pages/index.astro
+// Drop this file into your src/pages/ folder replacing the existing index.astro
 ---
 
-<BaseLayout title="Raihan Kader Niloy — Full-Stack Engineer">
-  <Hero />
-  <About />
-  <Skills />
-  <Contact />
-</BaseLayout>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Raihan Niloy — Full-Stack Engineer</title>
+<meta name="description" content="Full-Stack Software Engineer with 7+ years building enterprise systems, ETL pipelines, government platforms, and ML tools." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --bg:       #1e2633;
+  --bg-dark:  #161c27;
+  --fg:       #FFFFFF;
+  --fg2:      #ABB2BF;
+  --fg3:      #C1C8D4;
+  --accent:   #49cab5;
+  --border:   #4B5362;
+  --red:      #E06B74;
+  --green:    #98C379;
+  --yellow:   #E5C07A;
+  --blue:     #62AEEF;
+  --cyan:     #55B6C2;
+  --font: 'Space Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  overflow-x: hidden;
+  cursor: none;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; }
+
+/* ── CUSTOM CURSOR ──────────────────────────────────────── */
+#cursor {
+  position: fixed; top: 0; left: 0; z-index: 9999;
+  width: 12px; height: 12px;
+  background: var(--accent);
+  pointer-events: none;
+  mix-blend-mode: difference;
+  border-radius: 50%;
+  transition: transform 0.15s ease, width 0.2s, height 0.2s;
+}
+#cursor.hover { width: 40px; height: 40px; transform: translate(-14px, -14px); }
+#cursor-trail {
+  position: fixed; top: 0; left: 0; z-index: 9998;
+  width: 32px; height: 32px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.4;
+  transition: top 0.08s, left 0.08s;
+}
+
+/* ── NAV ────────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 48px;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.4s, background 0.4s, backdrop-filter 0.4s;
+}
+nav.scrolled {
+  border-color: var(--border);
+  background: rgba(22,28,39,0.9);
+  backdrop-filter: blur(12px);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 14px; font-weight: 700; color: var(--fg);
+}
+.nav-logo-mark { position: relative; width: 24px; height: 24px; }
+.nav-links { display: flex; gap: 32px; }
+.nav-links a {
+  font-size: 13px; color: var(--fg2);
+  position: relative; transition: color 0.2s;
+}
+.nav-links a::before { content: '#'; color: var(--accent); margin-right: 2px; }
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+  height: 1px; background: var(--accent);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.nav-links a:hover { color: var(--fg); }
+.nav-links a:hover::after { transform: scaleX(1); }
+
+/* ── SIDEBAR ────────────────────────────────────────────── */
+.sidebar {
+  position: fixed; left: 17px; top: 50%; transform: translateY(-50%);
+  z-index: 800;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+}
+.sidebar::before, .sidebar::after {
+  content: ''; display: block; width: 1px; height: 60px; background: var(--border);
+}
+.sidebar a { opacity: 0.5; transition: opacity 0.2s; }
+.sidebar a:hover { opacity: 1; }
+.sidebar svg { display: block; }
+
+/* ── DOTS ───────────────────────────────────────────────── */
+.dots { display: grid; gap: 6px; opacity: 0.35; }
+.dots span { display: block; width: 4px; height: 4px; border-radius: 50%; background: var(--fg2); }
+
+/* ── SECTION HEADING ────────────────────────────────────── */
+.section-head { display: flex; align-items: center; gap: 16px; margin-bottom: 64px; }
+.section-head h2 { font-size: 32px; font-weight: 700; white-space: nowrap; }
+.section-head h2 span { color: var(--accent); }
+.section-head-line {
+  flex: 1; height: 1px; background: var(--accent);
+  transform-origin: left; animation: line-in 0.8s ease forwards;
+}
+@keyframes line-in { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* ── REVEAL ─────────────────────────────────────────────── */
+.reveal {
+  opacity: 0; transform: translateY(32px);
+  transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ── HERO ───────────────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 120px 48px 80px 96px;
+  position: relative; overflow: hidden;
+}
+.hero-bg-text {
+  position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
+  font-size: clamp(180px, 20vw, 320px);
+  font-weight: 700; color: transparent;
+  -webkit-text-stroke: 1px var(--border);
+  line-height: 1; pointer-events: none; user-select: none;
+  letter-spacing: -0.05em; opacity: 0.4;
+}
+.hero-content { max-width: 700px; position: relative; z-index: 1; }
+.hero-greeting {
+  font-size: 14px; color: var(--accent); margin-bottom: 20px;
+  display: flex; align-items: center; gap: 12px;
+}
+.hero-greeting::before { content: '//'; opacity: 0.6; }
+.hero-name {
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 700; line-height: 1.0;
+  margin-bottom: 12px; letter-spacing: -0.03em;
+}
+.hero-name .accent { color: var(--accent); }
+.hero-role { font-size: 18px; color: var(--fg2); margin-bottom: 32px; line-height: 1.5; }
+.hero-role strong { color: var(--cyan); }
+.hero-desc { font-size: 16px; color: var(--fg2); line-height: 1.8; max-width: 480px; margin-bottom: 48px; }
+.hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn {
+  font-family: var(--font); font-size: 14px;
+  padding: 10px 24px; border: 1px solid var(--accent);
+  color: var(--fg); background: transparent;
+  cursor: pointer; transition: all 0.2s;
+  position: relative; overflow: hidden;
+}
+.btn::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--accent); transform: translateX(-100%);
+  transition: transform 0.25s ease; z-index: 0;
+}
+.btn:hover::before { transform: translateX(0); }
+.btn span { position: relative; z-index: 1; }
+.btn:hover { color: var(--bg); }
+.btn-ghost { border-color: var(--border); }
+.btn-ghost::before { background: var(--border); }
+.hero-scroll {
+  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+  font-size: 11px; color: var(--fg2); letter-spacing: 0.2em;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  animation: bob 2s ease-in-out infinite;
+}
+.hero-scroll-line { width: 1px; height: 60px; background: linear-gradient(to bottom, var(--accent), transparent); }
+@keyframes bob {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* ── GLITCH ─────────────────────────────────────────────── */
+.glitch { position: relative; }
+.glitch:hover::before, .glitch:hover::after {
+  content: attr(data-text);
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: var(--bg);
+}
+.glitch:hover::before {
+  left: 2px; color: var(--cyan);
+  clip: rect(0, 900px, 8px, 0);
+  animation: glitch-a 0.2s steps(2) infinite;
+}
+.glitch:hover::after {
+  left: -2px; color: var(--red);
+  clip: rect(0, 900px, 16px, 0);
+  animation: glitch-b 0.3s steps(2) infinite;
+}
+@keyframes glitch-a {
+  0%   { clip: rect(12px,900px,24px,0); } 25% { clip: rect(60px,900px,72px,0); }
+  50%  { clip: rect(4px,900px,16px,0); }  75% { clip: rect(44px,900px,56px,0); }
+  100% { clip: rect(28px,900px,40px,0); }
+}
+@keyframes glitch-b {
+  0%   { clip: rect(36px,900px,48px,0); } 25% { clip: rect(8px,900px,20px,0); }
+  50%  { clip: rect(52px,900px,64px,0); } 75% { clip: rect(20px,900px,32px,0); }
+  100% { clip: rect(68px,900px,80px,0); }
+}
+
+/* ── LAYOUT ─────────────────────────────────────────────── */
+.section-wrap { max-width: 1200px; margin: 0 auto; padding: 100px 48px; }
+
+/* ── ABOUT ──────────────────────────────────────────────── */
+#about { position: relative; }
+#about .bg-text {
+  position: absolute; right: 40px; top: 80px;
+  font-size: 160px; font-weight: 700; color: transparent;
+  -webkit-text-stroke: 1px var(--border);
+  opacity: 0.2; pointer-events: none; user-select: none; line-height: 1;
+}
+.about-grid { display: grid; grid-template-columns: 1fr 340px; gap: 80px; align-items: start; }
+.about-text p { font-size: 16px; line-height: 1.9; color: var(--fg2); margin-bottom: 20px; }
+.about-text p strong { color: var(--fg); }
+.about-facts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; }
+.fact-tag {
+  border: 1px solid var(--border); padding: 6px 14px;
+  font-size: 12px; color: var(--fg2); transition: border-color 0.2s, color 0.2s;
+}
+.fact-tag:hover { border-color: var(--accent); color: var(--fg); }
+.about-photo-wrap { position: relative; }
+.about-photo {
+  width: 100%; aspect-ratio: 2/3;
+  background: var(--bg-dark); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+/* Replace the ::before with a real <img> tag when you have a photo */
+.about-photo::before {
+  content: '// PHOTO\A// PLACEHOLDER';
+  white-space: pre; text-align: center; color: var(--border); font-size: 11px;
+}
+.about-photo-corner { position: absolute; width: 24px; height: 24px; border-color: var(--accent); border-style: solid; }
+.about-photo-corner.tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+.about-photo-corner.tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+.about-photo-corner.bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+.about-photo-corner.br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+/* ── EXPERIENCE ─────────────────────────────────────────── */
+#experience { background: var(--bg-dark); }
+.exp-list { display: flex; flex-direction: column; }
+.exp-item {
+  display: grid; grid-template-columns: 200px 1fr;
+  gap: 40px; padding: 40px 0; border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.exp-item::before {
+  content: ''; position: absolute; left: -48px; top: 0;
+  width: 3px; height: 0; background: var(--accent); transition: height 0.5s ease;
+}
+.exp-item.visible::before { height: 100%; }
+.exp-meta { padding-top: 4px; }
+.exp-period { font-size: 12px; color: var(--accent); margin-bottom: 6px; }
+.exp-type { font-size: 11px; color: var(--fg2); border: 1px solid var(--border); display: inline-block; padding: 2px 8px; margin-top: 8px; }
+.exp-role { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.exp-org { font-size: 16px; color: var(--accent); margin-bottom: 16px; }
+.exp-desc { font-size: 15px; color: var(--fg2); line-height: 2.4; }
+.exp-desc-line { padding: 4px 0; }
+
+/* ── PROJECTS ───────────────────────────────────────────── */
+.projects-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1px; background: var(--border); border: 1px solid var(--border);
+}
+.project-card {
+  background: var(--bg); padding: 32px;
+  position: relative; transition: background 0.25s;
+  display: flex; flex-direction: column;
+}
+.project-card:hover { background: rgba(73,202,181,0.04); }
+.project-card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+.project-num { font-size: 48px; font-weight: 700; line-height: 1; color: var(--border); user-select: none; }
+.project-type-badge { font-size: 10px; color: var(--fg2); border: 1px solid var(--border); padding: 3px 8px; letter-spacing: 0.1em; text-transform: uppercase; }
+.project-title { font-size: 20px; font-weight: 700; margin-bottom: 10px; color: var(--fg); }
+.project-desc { font-size: 15px; color: var(--fg2); line-height: 1.7; margin-bottom: 24px; flex: 1; }
+.project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+.project-tag { font-size: 11px; border: 1px solid var(--border); padding: 3px 10px; color: var(--fg2); transition: border-color 0.2s, color 0.2s; }
+.project-tag:hover { border-color: var(--accent); color: var(--accent); }
+.project-link { font-size: 12px; color: var(--accent); display: inline-flex; align-items: center; gap: 6px; transition: gap 0.2s; }
+.project-link:hover { gap: 10px; }
+.project-accent-bar {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--accent);
+  transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
+}
+.project-card:hover .project-accent-bar { transform: scaleX(1); }
+
+/* ── SKILLS ─────────────────────────────────────────────── */
+#skills { background: var(--bg-dark); }
+.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.skill-block { background: var(--bg-dark); }
+.skill-block-head { padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.skill-block-head .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+.skill-block-body { padding: 16px 20px; }
+.skill-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--fg2); padding: 7px 0; border-bottom: 1px solid rgba(75,83,98,0.3); }
+.skill-item:last-child { border-bottom: none; }
+.skill-item::before { content: '>'; color: var(--accent); font-size: 11px; }
+
+/* ── CONTACT ────────────────────────────────────────────── */
+#contact { position: relative; overflow: hidden; }
+.contact-bg { position: absolute; inset: 0; z-index: 0; background: radial-gradient(ellipse at 60% 50%, rgba(73,202,181,0.08) 0%, transparent 60%); }
+.contact-inner { position: relative; z-index: 1; }
+.contact-big { font-size: clamp(48px, 8vw, 96px); font-weight: 700; line-height: 1; margin-bottom: 32px; letter-spacing: -0.03em; }
+.contact-big span { color: var(--accent); }
+.contact-sub { font-size: 16px; color: var(--fg2); max-width: 420px; line-height: 1.8; margin-bottom: 48px; }
+.contact-methods { display: flex; gap: 16px; flex-wrap: wrap; }
+.contact-link { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; color: var(--fg2); border: 1px solid var(--border); padding: 12px 20px; transition: all 0.2s; }
+.contact-link:hover { border-color: var(--accent); color: var(--fg); }
+.contact-link span { color: var(--accent); }
+
+/* ── FOOTER ─────────────────────────────────────────────── */
+footer { border-top: 1px solid var(--border); padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: var(--fg2); }
+.footer-logo { display: flex; align-items: center; gap: 8px; }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-trail"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">
+    <div class="nav-logo-mark">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 26 39" style="position:absolute;top:0;left:0;color:var(--accent)">
+        <path d="M 0 0 L 13 0 L 26 0 L 26 13 L 13 13 L 13 26 L 26 26 L 26 39 L 13 39 L 0 39 L 0 26 L 0 13 L 0 0 Z" fill="currentColor" fill-rule="evenodd"/>
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 26 39" style="position:absolute;top:0;left:0;color:var(--fg);opacity:0.4">
+        <path d="M 0 0 L 13 0 L 26 0 L 26 13 L 26 26 L 26 39 L 13 39 L 0 39 L 0 26 L 13 26 L 13 13 L 0 13 L 0 0 Z" fill="currentColor" fill-rule="evenodd"/>
+      </svg>
+    </div>
+    raihan.niloy
+  </div>
+  <div class="nav-links">
+    <a href="#about">about-me</a>
+    <a href="#experience">experience</a>
+    <a href="#projects">projects</a>
+    <a href="#skills">skills</a>
+    <a href="#contact">contact</a>
+  </div>
+</nav>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <a href="https://github.com/raihanniloy" target="_blank" title="GitHub">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="#ABB2BF">
+      <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+    </svg>
+  </a>
+  <a href="mailto:raihanniloy@gmail.com" title="Email">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ABB2BF" stroke-width="2">
+      <rect x="2" y="4" width="20" height="16" rx="0"/><polyline points="2,4 12,13 22,4"/>
+    </svg>
+  </a>
+  <a href="https://www.linkedin.com/in/raihanniloy" target="_blank" title="LinkedIn">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="#ABB2BF">
+      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+    </svg>
+  </a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-text" aria-hidden="true">RN</div>
+  <div class="hero-content">
+    <div class="hero-greeting">Full-Stack Software Engineer &amp; Builder</div>
+    <h1 class="hero-name glitch" data-text="Raihan Niloy">
+      Raihan<br /><span class="accent">Niloy</span>
+    </h1>
+    <div class="hero-role">
+      <strong>7+ years</strong> building enterprise systems<br />
+      that actually work at scale.
+    </div>
+    <p class="hero-desc">
+      I build complex backend systems, ETL pipelines, government-facing platforms, and ML-powered tools — at <strong style="color:var(--fg)">Dynamic Solutions Innovators Ltd.</strong> since 2019. Based in Bangladesh.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn"><span>view work &mdash;&gt;</span></a>
+      <a href="#contact" class="btn btn-ghost"><span>get in touch</span></a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    <span>SCROLL</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-wrap">
+    <div class="section-head reveal">
+      <h2><span>#</span> about-me</h2>
+      <div class="section-head-line"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal" style="transition-delay:0.1s">
+        <p>
+          <strong>Hello, I'm Raihan Niloy.</strong> I'm a full-stack software engineer with 7+ years of professional experience building enterprise software at Dynamic Solutions Innovators Ltd. — from ERP integrations to government-grade platforms to machine learning systems.
+        </p>
+        <p>
+          My stack spans Java, Python, and JavaScript. I'm equally comfortable architecting backend systems, designing ETL pipelines, or diving into ML-powered document processing. I graduated in Computer Science from Mawlana Bhashani Science and Technology University in 2017.
+        </p>
+        <p>
+          Outside of work, I tinker with open-source tools and build utilities I wish existed — like <strong>Alchemy_Analytics</strong> (a visual SQL query builder) and <strong>tinkerbd</strong> (an e-commerce website for my business).
+        </p>
+        <div class="about-facts">
+          <div class="fact-tag">Java</div>
+          <div class="fact-tag">Spring Boot</div>
+          <div class="fact-tag">Python</div>
+          <div class="fact-tag">TypeScript</div>
+          <div class="fact-tag">Oracle</div>
+          <div class="fact-tag">SQL</div>
+          <div class="fact-tag">PyTorch</div>
+          <div class="fact-tag">Apache Superset</div>
+          <div class="fact-tag">ETL</div>
+          <div class="fact-tag">NLP</div>
+          <div class="fact-tag">Bangladesh 🇧🇩</div>
+        </div>
+      </div>
+      <div class="about-photo-wrap reveal" style="transition-delay:0.25s">
+        <!-- To add your photo: replace the .about-photo div with:
+             <img src="/your-photo.jpg" alt="Raihan Niloy" style="width:100%;border:1px solid var(--border)" />
+        -->
+        <div class="about-photo">
+          <div class="about-photo-corner tl"></div>
+          <div class="about-photo-corner tr"></div>
+          <div class="about-photo-corner bl"></div>
+          <div class="about-photo-corner br"></div>
+        </div>
+        <div class="dots" style="grid-template-columns:repeat(5,1fr);position:absolute;bottom:-24px;right:-24px;z-index:-1">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-text" aria-hidden="true">WHO</div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-wrap">
+    <div class="section-head reveal">
+      <h2><span>#</span> experience</h2>
+      <div class="section-head-line"></div>
+    </div>
+    <div class="exp-list">
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div class="exp-period">2019 &ndash; Present</div>
+          <div class="exp-type">work</div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-role">Full-Stack Software Engineer</div>
+          <div class="exp-org">Dynamic Solutions Innovators Ltd.</div>
+          <div class="exp-desc">
+            <div class="exp-desc-line">&rarr; Built and maintained enterprise software systems across Java, Python, and JavaScript stacks.</div>
+            <div class="exp-desc-line">&rarr; Delivered ERP integrations, government-facing platforms, ETL pipelines, and ML-powered document processing tools.</div>
+            <div class="exp-desc-line">&rarr; PDM &mdash; product lifecycle ERP with full Oracle DB backend.</div>
+            <div class="exp-desc-line">&rarr; DRIMS &mdash; biometric renovation system with DMP integration.</div>
+            <div class="exp-desc-line">&rarr; NDF &mdash; national dashboard ETL pipeline feeding Apache Superset.</div>
+            <div class="exp-desc-line">&rarr; Envize &mdash; ML document classifier built with PyTorch &amp; NLP.</div>
+          </div>
+        </div>
+      </div>
+      <div class="exp-item reveal" style="transition-delay:0.15s">
+        <div class="exp-meta">
+          <div class="exp-period">2012 &ndash; 2017</div>
+          <div class="exp-type">education</div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-role">B.Sc. Computer Science &amp; Engineering</div>
+          <div class="exp-org">Mawlana Bhashani Science and Technology University</div>
+          <div class="exp-desc">Graduated with a degree in Computer Science and Engineering. Foundation in algorithms, data structures, systems architecture, and software engineering principles.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-wrap">
+    <div class="section-head reveal">
+      <h2><span>#</span> projects</h2>
+      <div class="section-head-line"></div>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <div class="project-card-header">
+          <div class="project-num">01</div>
+          <div class="project-type-badge">WORK</div>
+        </div>
+        <div class="project-title">PDM</div>
+        <div class="project-desc">Product Development Management system — ERP integration for end-to-end product lifecycle management. Handles procurement, manufacturing stages, and delivery tracking with full Oracle DB backend.</div>
+        <div class="project-tags">
+          <span class="project-tag">Java</span><span class="project-tag">Spring Boot</span><span class="project-tag">Oracle</span>
+        </div>
+        <div class="project-accent-bar"></div>
+      </div>
+      <div class="project-card reveal" style="transition-delay:0.08s">
+        <div class="project-card-header">
+          <div class="project-num">02</div>
+          <div class="project-type-badge">WORK</div>
+        </div>
+        <div class="project-title">DRIMS</div>
+        <div class="project-desc">Renovation Information Management System featuring biometric / NID search and DMP (Dhaka Metropolitan Police) integration. Government-grade security and reliability requirements.</div>
+        <div class="project-tags">
+          <span class="project-tag">Java</span><span class="project-tag">Spring Boot</span><span class="project-tag">Oracle</span>
+        </div>
+        <div class="project-accent-bar"></div>
+      </div>
+      <div class="project-card reveal" style="transition-delay:0.16s">
+        <div class="project-card-header">
+          <div class="project-num">03</div>
+          <div class="project-type-badge">WORK</div>
+        </div>
+        <div class="project-title">NDF</div>
+        <div class="project-desc">National Dashboard Framework — ETL pipelines ingesting multi-source government data and feeding interactive Apache Superset dashboards for policy and analytics teams.</div>
+        <div class="project-tags">
+          <span class="project-tag">Python</span><span class="project-tag">ETL</span><span class="project-tag">Apache Superset</span><span class="project-tag">SQL</span>
+        </div>
+        <div class="project-accent-bar"></div>
+      </div>
+      <div class="project-card reveal" style="transition-delay:0.04s">
+        <div class="project-card-header">
+          <div class="project-num">04</div>
+          <div class="project-type-badge">WORK</div>
+        </div>
+        <div class="project-title">Envize</div>
+        <div class="project-desc">Document classification system using machine learning for automated categorisation of large document corpora. Built with PyTorch and Scikit-learn, NLP pipeline fine-tuned on domain-specific corpora.</div>
+        <div class="project-tags">
+          <span class="project-tag">Python</span><span class="project-tag">PyTorch</span><span class="project-tag">Scikit-learn</span><span class="project-tag">NLP</span>
+        </div>
+        <div class="project-accent-bar"></div>
+      </div>
+      <div class="project-card reveal" style="transition-delay:0.12s">
+        <div class="project-card-header">
+          <div class="project-num">05</div>
+          <div class="project-type-badge">PERSONAL</div>
+        </div>
+        <div class="project-title">Alchemy_Analytics</div>
+        <div class="project-desc">Visual query builder for SQLAlchemy — compose complex queries without writing raw SQL. A fully vibe-coded SQL visualiser born from the frustration of debugging ORM chains.</div>
+        <div class="project-tags">
+          <span class="project-tag">Python</span><span class="project-tag">SQL</span><span class="project-tag">SQLAlchemy</span>
+        </div>
+        <a class="project-link" href="https://github.com/raihanniloy/Alchemy_Analytics" target="_blank">view on github &rarr;</a>
+        <div class="project-accent-bar"></div>
+      </div>
+      <div class="project-card reveal" style="transition-delay:0.2s">
+        <div class="project-card-header">
+          <div class="project-num">06</div>
+          <div class="project-type-badge">PERSONAL</div>
+        </div>
+        <div class="project-title">tinkerbd</div>
+        <div class="project-desc">E-commerce website for my anime merch shop business. Built to handle product listings, orders, and customer management for a niche retail brand.</div>
+        <div class="project-tags">
+          <span class="project-tag">TypeScript</span>
+        </div>
+        <a class="project-link" href="https://github.com/raihanniloy/tinkerbd" target="_blank">view on github &rarr;</a>
+        <div class="project-accent-bar"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-wrap">
+    <div class="section-head reveal">
+      <h2><span>#</span> skills</h2>
+      <div class="section-head-line"></div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-block reveal">
+        <div class="skill-block-head"><div class="dot"></div>Backend</div>
+        <div class="skill-block-body">
+          <div class="skill-item">Java</div>
+          <div class="skill-item">Spring Boot</div>
+          <div class="skill-item">Python</div>
+          <div class="skill-item">FastAPI / Flask</div>
+          <div class="skill-item">REST API Design</div>
+        </div>
+      </div>
+      <div class="skill-block reveal" style="transition-delay:0.08s">
+        <div class="skill-block-head"><div class="dot"></div>Data &amp; ML</div>
+        <div class="skill-block-body">
+          <div class="skill-item">ETL Pipeline Design</div>
+          <div class="skill-item">Apache Superset</div>
+          <div class="skill-item">PyTorch</div>
+          <div class="skill-item">Scikit-learn</div>
+          <div class="skill-item">NLP</div>
+        </div>
+      </div>
+      <div class="skill-block reveal" style="transition-delay:0.16s">
+        <div class="skill-block-head"><div class="dot"></div>Frontend</div>
+        <div class="skill-block-body">
+          <div class="skill-item">TypeScript</div>
+          <div class="skill-item">React</div>
+          <div class="skill-item">Astro</div>
+          <div class="skill-item">HTML / CSS</div>
+        </div>
+      </div>
+      <div class="skill-block reveal" style="transition-delay:0.24s">
+        <div class="skill-block-head"><div class="dot"></div>Database &amp; Infra</div>
+        <div class="skill-block-body">
+          <div class="skill-item">Oracle DB</div>
+          <div class="skill-item">SQL</div>
+          <div class="skill-item">SQLAlchemy</div>
+          <div class="skill-item">Git / GitHub Actions</div>
+        </div>
+      </div>
+      <div class="skill-block reveal" style="transition-delay:0.32s">
+        <div class="skill-block-head"><div class="dot"></div>AI &amp; LLM</div>
+        <div class="skill-block-body">
+          <div class="skill-item">Claude / Claude Code</div>
+          <div class="skill-item">Cursor (AI-assisted dev)</div>
+          <div class="skill-item">RAG Pipelines</div>
+          <div class="skill-item">MCP (Model Context Protocol)</div>
+          <div class="skill-item">End-to-end AI Products</div>
+        </div>
+      </div>
+      <div class="skill-block reveal" style="transition-delay:0.40s">
+        <div class="skill-block-head"><div class="dot"></div>DevOps &amp; Infra</div>
+        <div class="skill-block-body">
+          <div class="skill-item">Linux Server Admin</div>
+          <div class="skill-item">Docker</div>
+          <div class="skill-item">Docker Swarm</div>
+          <div class="skill-item">Kubernetes</div>
+          <div class="skill-item">App Deployment &amp; Ops</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-bg"></div>
+  <div class="section-wrap contact-inner">
+    <div class="contact-big reveal">
+      Let's<br /><span>work</span><br />together.
+    </div>
+    <p class="contact-sub reveal" style="transition-delay:0.1s">
+      I'm open to freelance opportunities, interesting projects, and good conversations about code and systems. Don't hesitate to reach out.
+    </p>
+    <div class="contact-methods reveal" style="transition-delay:0.2s">
+      <a class="contact-link" href="mailto:raihanniloy@gmail.com"><span>@</span> raihanniloy@gmail.com</a>
+      <a class="contact-link" href="https://github.com/raihanniloy" target="_blank"><span>/</span> github.com/raihanniloy</a>
+      <a class="contact-link" href="https://www.linkedin.com/in/raihanniloy" target="_blank"><span>/</span> linkedin</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 26 39" style="color:var(--accent)">
+      <path d="M 0 0 L 13 0 L 26 0 L 26 13 L 13 13 L 13 26 L 26 26 L 26 39 L 13 39 L 0 39 L 0 26 L 0 13 L 0 0 Z" fill="currentColor" fill-rule="evenodd"/>
+    </svg>
+    raihan niloy &copy; 2026
+  </div>
+  <span style="color:var(--border)">// full-stack engineer &middot; bangladesh</span>
+</footer>
+
+<script>
+  // Custom cursor
+  const cur = document.getElementById('cursor');
+  const trail = document.getElementById('cursor-trail');
+  document.addEventListener('mousemove', e => {
+    cur.style.left = e.clientX + 'px';
+    cur.style.top = e.clientY + 'px';
+    setTimeout(() => {
+      trail.style.left = (e.clientX - 15) + 'px';
+      trail.style.top  = (e.clientY - 15) + 'px';
+    }, 80);
+  });
+  document.querySelectorAll('a, button, .btn, .project-card, .skill-block').forEach(el => {
+    el.addEventListener('mouseenter', () => cur.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cur.classList.remove('hover'));
+  });
+
+  // Scroll nav
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Reveal on scroll
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
